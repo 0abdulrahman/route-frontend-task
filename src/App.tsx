@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch("/data.json");
+        const response = await fetch("/route-frontend-task/data.json");
         const responseData: DataType = await response.json();
 
         const transaction = responseData.transactions.map((t: { id: number; customer_id: number; date: string; amount: number }) => ({
