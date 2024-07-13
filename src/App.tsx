@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch("/public/data.json");
+        const response = await fetch("/data.json");
         const responseData: DataType = await response.json();
 
         const transaction = responseData.transactions.map((t: { id: number; customer_id: number; date: string; amount: number }) => ({
@@ -54,7 +54,7 @@ function App() {
 
   return (
     <main className="container">
-      <h1 className="text-center mt-8 text-xl md:text-4xl font-bold uppercase tracking-widest md:tracking-[10px] relative before:absolute before:top-full before:mt-2 before:w-1/3 before:h-[1px] before:left-1/2 before:-translate-x-1/2 before:bg-blue-400">
+      <h1 className="text-center mt-8 text-xl md:text-4xl font-bold uppercase tracking-widest md:tracking-[10px] relative before:absolute before:top-full before:mt-2 before:w-1/3 before:h-[1px] before:left-1/2 before:-translate-x-1/2 before:bg-yellow-400">
         Customers transactions
       </h1>
 
@@ -71,7 +71,7 @@ function App() {
         />
         <Input
           type="text"
-          placeholder="Search by transaction amoung..."
+          placeholder="Search by transaction amount..."
           value={transactionAmount || ""}
           onChange={(e) => {
             const value = e.target.value;
@@ -81,11 +81,15 @@ function App() {
         />
       </div>
 
-      <TransactionsTable transactions={filteredData || transactions} />
+      <TransactionsTable
+        transactions={filteredData || transactions}
+        customerName={customerName || ""}
+        transactionAmount={transactionAmount || 0}
+      />
 
       <hr className="my-8" />
 
-      <h1 className="text-center mt-16 mb-12 text-xl md:text-4xl font-bold uppercase tracking-widest md:tracking-[10px] relative before:absolute before:top-full before:mt-2 before:w-1/3 before:h-[1px] before:left-1/2 before:-translate-x-1/2 before:bg-blue-400">
+      <h1 className="text-center mt-16 mb-12 text-xl md:text-4xl font-bold uppercase tracking-widest md:tracking-[10px] relative before:absolute before:top-full before:mt-2 before:w-1/3 before:h-[1px] before:left-1/2 before:-translate-x-1/2 before:bg-yellow-400">
         Transactions Graph
       </h1>
 

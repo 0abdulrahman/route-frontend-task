@@ -1,16 +1,28 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TransactionType } from "@/types/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function TransactionsTable({ transactions }: { transactions: TransactionType[] | null }) {
+export default function TransactionsTable({
+  transactions,
+  customerName,
+  transactionAmount,
+}: {
+  transactions: TransactionType[] | null;
+  customerName: string;
+  transactionAmount: number;
+}) {
   const [page, setPage] = useState(1);
 
   const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "full", numberingSystem: "latn" });
   const priceFormatter = new Intl.NumberFormat("en-US", { numberingSystem: "latn" });
 
   const lastPage = transactions?.length ? Math.ceil(transactions.length / 7) : 0;
+
+  useEffect(() => {
+    setPage(1);
+  }, [customerName, transactionAmount]);
 
   return (
     <section className="flex flex-col justify-between gap-2 h-[500px]">
@@ -26,7 +38,7 @@ export default function TransactionsTable({ transactions }: { transactions: Tran
           {transactions?.length ? (
             transactions.slice((page - 1) * 7, page * 7).map((transaction) => (
               <TableRow key={transaction.id}>
-                <TableCell className="font-medium text-blue-400">{transaction.customer}</TableCell>
+                <TableCell className="font-medium text-yellow-400">{transaction.customer}</TableCell>
                 <TableCell>{dateFormatter.format(new Date(transaction.date))}</TableCell>
                 <TableCell className="text-end text-green-400">${priceFormatter.format(transaction.amount)}</TableCell>
               </TableRow>

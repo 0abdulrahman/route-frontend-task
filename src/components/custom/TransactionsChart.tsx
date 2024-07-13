@@ -1,6 +1,6 @@
 "use client";
 
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
@@ -16,7 +16,7 @@ type TransactionsChartProps = {
 const chartConfig = {
   amount: {
     label: "Amount",
-    color: "#2662d9",
+    color: "#facc15",
   },
 } satisfies ChartConfig;
 
@@ -28,7 +28,7 @@ export function TransactionsChart({ transactionsData, customers }: TransactionsC
     setCustomer(customers[0]);
   }, [customers]);
 
-  if (!customers?.length) return <p className="italic text-center">Loading...</p>;
+  if (!customers?.length) return <p className="text-center text-red-400">No data!</p>;
 
   const chartData = transactionsData
     .filter((t) => t?.customer_id === customer?.id)
@@ -38,7 +38,7 @@ export function TransactionsChart({ transactionsData, customers }: TransactionsC
     <Card>
       <CardHeader className="flex items-center justify-between flex-row gap-4">
         <CardTitle className="text-sm md:text-lg">
-          Total transactions per day for <span className="text-blue-500 font-semibold">{customer?.name}</span>
+          Total transactions per day for <span className="text-yellow-400 font-semibold">{customer?.name}</span>
         </CardTitle>
         <SelectCustomer
           customers={customers}
@@ -58,8 +58,9 @@ export function TransactionsChart({ transactionsData, customers }: TransactionsC
             }}>
             <CartesianGrid vertical={true} />
             <XAxis dataKey="day" tickLine={true} axisLine={false} tickMargin={8} />
+            <YAxis dataKey="amount" tickLine={true} axisLine={false} tickMargin={8} />
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-            <Line dataKey="amount" type="natural" strokeWidth={2} dot={false} />
+            <Line dataKey="amount" type="linear" strokeWidth={2} dot={true} stroke="#facc0f" strokeOpacity={0.25} />
           </LineChart>
         </ChartContainer>
       </CardContent>
